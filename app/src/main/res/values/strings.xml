@@ -3,4 +3,7 @@
     <string name="welcomeRU">Welcome to Rutgers Cafe</string>
     <string name="donuts">Donuts</string>
     <string name="textview">textview</string>
+    <string name="coffee">Coffee</string>
+    <string name="basket">Basket</string>
+    <string name="orders">Store Orders</string>
 </resources>

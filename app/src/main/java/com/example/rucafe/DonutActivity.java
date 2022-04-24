@@ -17,6 +17,8 @@ import java.util.ArrayList;
 public class DonutActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private ArrayList<Donut> donuts = new ArrayList<>();
+    private ArrayList<String> flavors = new ArrayList<>();
+    private static final int MAX_FLAVORS = 14;
 
     private int[] donutHoleImages = {R.drawable.glazedholes, R.drawable.chocolateholes, R.drawable.powderedholes,
             R.drawable.jelly, R.drawable.glazed, R.drawable.chocolatenew, R.drawable.boston, R.drawable.coconut, R.drawable.frenchcruller,
@@ -32,11 +34,15 @@ public class DonutActivity extends AppCompatActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donut);
+        setTitle(getResources().getText(R.string.donuts));
         RecyclerView rcview = findViewById(R.id.rcView_menu);
         subtotal = findViewById(R.id.subtotal);
+        donuts.clear();
         setupMenuItems(); //add the list of items to the ArrayList
-        for(int i = 0; i< donuts.size(); i++){
-            donuts.get(i).setImageID(donutHoleImages[i]);
+        if(donuts.size() == MAX_FLAVORS){
+            for(int i = 0; i< donuts.size(); i++){
+                donuts.get(i).setImageID(donutHoleImages[i]);
+            }
         }
         DonutsAdapter donutsAdapter = new DonutsAdapter(this, donuts);
         rcview.setAdapter(donutsAdapter);
@@ -49,20 +55,23 @@ public class DonutActivity extends AppCompatActivity implements AdapterView.OnIt
      */
     private void setupMenuItems() {
         Donut d = new Donut();
-        ArrayList<String> holeFlavors = d.getHoleFlavors();
-        for (int i = 0; i < holeFlavors.size(); i++) {
-            donuts.add(new Donut("donut holes", holeFlavors.get(i)));
+        //donuts.clear();
+        flavors.clear();
+        flavors.addAll(d.getHoleFlavors());
+        for (int i = 0; i < flavors.size(); i++) {
+            donuts.add(new Donut("donut holes", flavors.get(i)));
         }
-        holeFlavors.removeAll(d.getHoleFlavors());
-        holeFlavors.addAll(d.getYeastFlavors());
-        for (int i = 0; i < holeFlavors.size(); i++) {
-            donuts.add(new Donut("yeast donuts", holeFlavors.get(i)));
+        flavors.clear();
+        flavors.addAll(d.getYeastFlavors());
+        for (int i = 0; i < flavors.size(); i++) {
+            donuts.add(new Donut("yeast donuts", flavors.get(i)));
         }
-        holeFlavors.removeAll(d.getYeastFlavors());
-        holeFlavors.addAll(d.getCakeFlavors());
-        for (int i = 0; i < holeFlavors.size(); i++) {
-            donuts.add(new Donut("cake donuts", holeFlavors.get(i)));
+        flavors.clear();
+        flavors.addAll(d.getCakeFlavors());
+        for (int i = 0; i < flavors.size(); i++) {
+            donuts.add(new Donut("cake donuts", flavors.get(i)));
         }
+        flavors.clear();
 
     }
 

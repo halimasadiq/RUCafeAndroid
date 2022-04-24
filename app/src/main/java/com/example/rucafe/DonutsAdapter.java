@@ -134,7 +134,8 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(itemView.getContext(),
-                                        donut_name.getText().toString() + " added.", Toast.LENGTH_LONG).show();
+                                        donut_number.getText().toString() + " " +
+                                                donut_name.getText().toString() + " added.", Toast.LENGTH_LONG).show();
                                 donutActivity.setSubtotal(d.itemPrice());
                                 myBasket.addToItems(d.toString());
                                 donutsAdded.add(d);
@@ -179,7 +180,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                         if (!donutsAdded.contains(d)) {
                             Toast.makeText(itemView.getContext(),
                                     donut_number.getText().toString() + " " + donut_name.getText().toString() +
-                                            " not previously added", Toast.LENGTH_LONG).show();
+                                            " not previously added. Remove with the number of donuts added.", Toast.LENGTH_LONG).show();
                         } else {
                             AlertDialog.Builder alert = new AlertDialog.Builder(itemView.getContext());
                             alert.setTitle("Remove from order");
@@ -188,7 +189,8 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                             alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(itemView.getContext(),
-                                            donut_name.getText().toString() + " removed.", Toast.LENGTH_LONG).show();
+                                            donut_number.getText().toString() + " " +
+                                                    donut_name.getText().toString() + " removed.", Toast.LENGTH_LONG).show();
                                     donutActivity.removeSubtotal(d.itemPrice());
                                     donutsAdded.remove(d);
                                     myBasket.removeFromItems(d.toString());
