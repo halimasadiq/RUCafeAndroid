@@ -30,11 +30,13 @@ import java.util.ArrayList;
  * ItemAdapter and an inner class ItemsHolder (a static class)
  * The ItemsHolder class must extend RecyclerView.ViewHolder. In the constructor of this class,
  * you do something similar to the onCreate() method in an Activity.
- * @author Lily Chang
+ * @author
  */
 class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
-    private Context context; //need the context to inflate the layout
-    private ArrayList<Donut> items; //need the data binding to each row of RecyclerView
+
+    private static final BasketActivity myBasket = new BasketActivity();
+    private Context context;
+    private ArrayList<Donut> items;
 
     public DonutsAdapter(Context context, ArrayList<Donut> items) {
         this.context = context;
@@ -50,10 +52,8 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
     @NonNull
     @Override
     public ItemsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //inflate the row layout for the items
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.row_view, parent, false);
-
         return new ItemsHolder(view);
     }
 
@@ -85,10 +85,12 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
      * Get the views from the row layout file, similar to the onCreate() method.
      */
     public static class ItemsHolder extends RecyclerView.ViewHolder {
+        private static final DonutActivity donutActivity = new DonutActivity();
+        private static final ArrayList<Donut> donutsAdded = new ArrayList<>();
         private TextView donut_name;
         private ImageView im_item;
         private TextView donut_number;
-
+        private Button btn_remove;
         private Button btn_add;
         private ConstraintLayout parentLayout; //this is the row layout
 
@@ -99,9 +101,11 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
             donut_name = itemView.findViewById(R.id.donut_flavor);
             im_item = itemView.findViewById(R.id.im_item);
             btn_add = itemView.findViewById(R.id.add);
+            btn_remove = itemView.findViewById(R.id.remove);
             donut_number = itemView.findViewById(R.id.numberOfDonuts);
             parentLayout = itemView.findViewById(R.id.rowLayout);
             setAddButtonOnClick(itemView);
+            setRemoveButtonOnClick(itemView);
         }
 
         /**
@@ -114,15 +118,14 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                 @Override
                 public void onClick(View view) {
                     if (donut_number.getText().toString().length() == 0) {
-                        System.out.println("in here");
                         Toast.makeText(itemView.getContext(),
                                 "No quantity selected", Toast.LENGTH_LONG).show();
                     } else {
                         String[] tokens = donut_name.getText().toString().split(" ");
                         String flavor = tokens[0];
                         String type = tokens[1] + " " + tokens[2];
-                        int num = Integer.parseInt(donut_name.getText().toString());
-                        Donut d = new Donut(num,type,flavor);
+                        int num = Integer.parseInt(donut_number.getText().toString());
+                        Donut d = new Donut(num,type.trim(),flavor.trim());
                         d.setNumber(num);
                         AlertDialog.Builder alert = new AlertDialog.Builder(itemView.getContext());
                         alert.setTitle("Add to order");
@@ -132,7 +135,10 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(itemView.getContext(),
                                         donut_name.getText().toString() + " added.", Toast.LENGTH_LONG).show();
-
+                                donutActivity.setSubtotal(d.itemPrice());
+                                myBasket.addToItems(d.toString());
+                                donutsAdded.add(d);
+                                donut_number.setText(null);
                             }
                             //handle the "NO" click
                         });
@@ -144,6 +150,61 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                         });
                         AlertDialog dialog = alert.create();
                         dialog.show();
+                    }
+                }
+            });
+
+
+        }
+
+        /**
+         * Set the onClickListener for the button on each row.
+         * Clicking on the button will create an AlertDialog with the options of YES/NO.
+         * @param itemView
+         */
+        private void setRemoveButtonOnClick(@NonNull final View itemView) {
+            btn_remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (donut_number.getText().toString().length() == 0) {
+                        Toast.makeText(itemView.getContext(),
+                                "No quantity selected", Toast.LENGTH_LONG).show();
+                    } else {
+                        String[] tokens = donut_name.getText().toString().split(" ");
+                        String flavor = tokens[0];
+                        String type = tokens[1] + " " + tokens[2];
+                        int num = Integer.parseInt(donut_number.getText().toString());
+                        Donut d = new Donut(num, type.trim(), flavor.trim());
+                        d.setNumber(num);
+                        if (!donutsAdded.contains(d)) {
+                            Toast.makeText(itemView.getContext(),
+                                    donut_number.getText().toString() + " " + donut_name.getText().toString() +
+                                            " not previously added", Toast.LENGTH_LONG).show();
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(itemView.getContext());
+                            alert.setTitle("Remove from order");
+                            alert.setMessage(donut_number.getText().toString() + " " + donut_name.getText().toString());
+                            //handle the "YES" click
+                            alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(itemView.getContext(),
+                                            donut_name.getText().toString() + " removed.", Toast.LENGTH_LONG).show();
+                                    donutActivity.removeSubtotal(d.itemPrice());
+                                    donutsAdded.remove(d);
+                                    myBasket.removeFromItems(d.toString());
+                                    donut_number.setText(null);
+                                }
+                                //handle the "NO" click
+                            });
+                            alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(itemView.getContext(),
+                                            donut_name.getText().toString() + " not added.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            AlertDialog dialog = alert.create();
+                            dialog.show();
+                        }
                     }
                 }
             });

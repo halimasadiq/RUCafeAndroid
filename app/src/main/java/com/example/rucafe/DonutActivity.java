@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class DonutActivity extends AppCompatActivity implements AdapterView.OnIt
     private Spinner spinner;
     private ArrayAdapter<String> adapter;
     private String [] types = {"yeast donuts","cake donuts", "donut holes"};
-    private ImageView donutTypeIV;
+    private static TextView subtotal;
 
 
     @Override
@@ -32,41 +33,15 @@ public class DonutActivity extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donut);
         RecyclerView rcview = findViewById(R.id.rcView_menu);
+        subtotal = findViewById(R.id.subtotal);
         setupMenuItems(); //add the list of items to the ArrayList
         for(int i = 0; i< donuts.size(); i++){
             donuts.get(i).setImageID(donutHoleImages[i]);
         }
-        DonutsAdapter donutsAdapter = new DonutsAdapter(this, donuts); //create the adapter
-        rcview.setAdapter(donutsAdapter); //bind the list of items to the RecyclerView
-        //use the LinearLayout for the RecyclerView
+        DonutsAdapter donutsAdapter = new DonutsAdapter(this, donuts);
+        rcview.setAdapter(donutsAdapter);
+
         rcview.setLayoutManager(new LinearLayoutManager(this));
-/*
-        spinner = findViewById(R.id.donutType);
-        adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, types);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(adapterView.getSelectedItem().toString().equals("yeast donuts")){
-                    donutTypeIV.setImageResource(R.drawable.yeastdonut);
-                }
-                if(adapterView.getSelectedItem().toString().equals("cake donuts")){
-                    donutTypeIV.setImageResource(R.drawable.cakedonut);
-                }
-                if(adapterView.getSelectedItem().toString().equals("donut holes")){
-                    donutTypeIV.setImageResource(R.drawable.donutholes);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                donutTypeIV.setImageResource(R.drawable.yeastdonut);
-            }
-        });
-
- */
-
     }
 
     /**
@@ -88,6 +63,28 @@ public class DonutActivity extends AppCompatActivity implements AdapterView.OnIt
         for (int i = 0; i < holeFlavors.size(); i++) {
             donuts.add(new Donut("cake donuts", holeFlavors.get(i)));
         }
+
+    }
+
+    public void setSubtotal(double toAdd){
+        String format = String.format("%.2f",toAdd);
+        if(subtotal.getText().length() == 0){
+            subtotal.setText(format);
+        }
+        else{
+            double prev = Double.parseDouble(subtotal.getText().toString());
+            double newNum = prev + toAdd;
+            format = String.format("%.2f", newNum);
+            subtotal.setText(format);
+        }
+    }
+
+    public void removeSubtotal(double toRemove){
+
+        double prev = Double.parseDouble(subtotal.getText().toString());
+        double newNum = prev - toRemove;
+        String format = String.format("%.2f", newNum);
+        subtotal.setText(format);
 
     }
 

@@ -46,9 +46,9 @@ public class Donut extends MenuItem {
      * @param donutFlavor - donut flavor
      * */
     public Donut(int number, String donutType, String donutFlavor){
-        if ((donutType.equals("yeast donuts") && YEAST_FLAVORS.contains(donutFlavor.toLowerCase())) ||
-                (donutType.equals("cake donuts") && CAKE_FLAVORS.contains(donutFlavor.toLowerCase())) ||
-                (donutType.equals("donut holes") && HOLE_FLAVORS.contains(donutFlavor.toLowerCase()))) {
+        if ((donutType.equals("yeast donuts")) ||
+                (donutType.equals("cake donuts")) ||
+                (donutType.equals("donut holes"))) {
             this.donutType = donutType;
             this.donutFlavor = donutFlavor;
             this.number = number;

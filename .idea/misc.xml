@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Rutgers/Spring 2022/Software Methodology/Projects/RUCafe/RUCafeAndroid/app/src/main/res/layout/activity_donut.xml" value="0.2296875" />
+        <entry key="..\:/Rutgers/Spring 2022/Software Methodology/Projects/RUCafe/RUCafeAndroid/app/src/main/res/layout/activity_store_orders.xml" value="0.25052083333333336" />
+        <entry key="..\:/Rutgers/Spring 2022/Software Methodology/Projects/RUCafe/RUCafeAndroid/app/src/main/res/layout/row_view.xml" value="0.4" />
         <entry key="..\:/Rutgers/Spring 2022/Software Methodology/Projects/RUCafeAndroidApp/RUCafeAndroidApp/app/src/main/res/layout/activity_donut.xml" value="0.11068895643363728" />
         <entry key="..\:/Rutgers/Spring 2022/Software Methodology/Projects/RUCafeAndroidApp/RUCafeAndroidApp/app/src/main/res/layout/row_view.xml" value="0.4" />
       </map>
