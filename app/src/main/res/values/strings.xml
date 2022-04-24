@@ -6,4 +6,10 @@
     <string name="coffee">Coffee</string>
     <string name="basket">Basket</string>
     <string name="orders">Store Orders</string>
+    <string-array name="Size">
+        <item>Short</item>
+        <item>Tall</item>
+        <item>Grande</item>
+        <item>Venti</item>
+    </string-array>
 </resources>
