@@ -8,14 +8,12 @@
 
     <ImageView
         android:id="@+id/image_coffee"
-        android:layout_width="333dp"
-        android:layout_height="313dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="39dp"
+        android:layout_width="300dp"
+        android:layout_height="167dp"
+        android:layout_marginTop="52dp"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/coffeemain" />
@@ -25,81 +23,85 @@
         android:layout_width="85dp"
         android:layout_height="53dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="24dp"
+        android:checked="false"
         android:minHeight="48dp"
         android:text="Milk"
-        android:checked="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_coffee" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_Caramel" />
 
     <CheckBox
         android:id="@+id/checkBox_cream"
         android:layout_width="86dp"
         android:layout_height="53dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="172dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
+        android:checked="false"
         android:minHeight="48dp"
         android:text="Cream"
-        android:checked="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_coffee" />
+        app:layout_constraintStart_toEndOf="@+id/checkBox_Milk"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_WC" />
 
     <CheckBox
         android:id="@+id/checkBox_syrup"
         android:layout_width="93dp"
         android:layout_height="50dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:checked="false"
         android:minHeight="48dp"
         android:text="Syrup"
-        android:checked="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_coffee" />
+        app:layout_constraintStart_toEndOf="@+id/checkBox_cream"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_WC" />
 
     <CheckBox
         android:id="@+id/checkBox_Caramel"
         android:layout_width="105dp"
         android:layout_height="48dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="340dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="32dp"
+        android:checked="false"
         android:minHeight="48dp"
         android:text="Caramel"
-        android:checked="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_coffee" />
 
     <CheckBox
         android:id="@+id/checkBox_WC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="340dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:checked="false"
         android:minHeight="48dp"
         android:text="Whipped Cream"
-        android:checked="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_Caramel"
+        app:layout_constraintTop_toBottomOf="@+id/image_coffee" />
 
     <TextView
         android:id="@+id/tv_subtotal"
         android:layout_width="126dp"
         android:layout_height="57dp"
-        android:layout_marginEnd="248dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
         android:text="SUBTOTAL"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_size" />
 
     <Button
         android:id="@+id/but_addToBasket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="44dp"
-        android:layout_marginBottom="56dp"
         android:text="ADD TO BASKET"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.697"
+        app:layout_constraintStart_toEndOf="@+id/tv_subtotal"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_size" />
 
     <Spinner
         android:id="@+id/spinner_size"
@@ -107,23 +109,22 @@
         android:layout_height="63dp"
         android:layout_marginStart="36dp"
         android:layout_marginEnd="44dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_subtotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_sizeLabel" />
 
     <TextView
         android:id="@+id/text_sizeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="43dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="310dp"
-        android:layout_marginBottom="12dp"
         android:text="Please pick a size"
-        app:layout_constraintBottom_toTopOf="@+id/spinner_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.075"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_Milk" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
