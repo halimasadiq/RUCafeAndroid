@@ -86,7 +86,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
      */
     public static class ItemsHolder extends RecyclerView.ViewHolder {
         private static final DonutActivity donutActivity = new DonutActivity();
-        private static final ArrayList<Donut> donutsAdded = new ArrayList<>();
+        private ArrayList<Donut> donutsAdded = new ArrayList<>();
         private TextView donut_name;
         private ImageView im_item;
         private TextView donut_number;
@@ -180,7 +180,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                         if (!donutsAdded.contains(d)) {
                             Toast.makeText(itemView.getContext(),
                                     donut_number.getText().toString() + " " + donut_name.getText().toString() +
-                                            " not previously added. Remove with the number of donuts added.", Toast.LENGTH_LONG).show();
+                                            " not previously added Or has different number of donuts if added.", Toast.LENGTH_LONG).show();
                         } else {
                             AlertDialog.Builder alert = new AlertDialog.Builder(itemView.getContext());
                             alert.setTitle("Remove from order");
