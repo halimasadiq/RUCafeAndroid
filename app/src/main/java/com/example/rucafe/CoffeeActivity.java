@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
     private TextView TV_Subtotal;
     private TextView TV_Size;
     private TextView TV_Qty;
-    private TextView TV_NumQty;
+    private EditText TV_NumQty;
 
     private Button But_ATB;
 
@@ -36,7 +37,7 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
 
     private Coffee coffee;
 
-    private ArrayList<String> addIns;
+    private ArrayList<CoffeeAddIns> coffeeAddInsArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,54 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         CB_Milk = findViewById(R.id.checkBox_Milk);
         CB_WhippedCream = findViewById(R.id.checkBox_WC);
         CB_Syrup = findViewById(R.id.checkBox_syrup);
-        addIns = new ArrayList<>();
+        coffeeAddInsArrayList = new ArrayList<>();
 
+        //Add any add-ins to list if there are any
         CB_Caramel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(CB_Caramel.isChecked()){
-                    addIns.add("caramel");
+                    coffeeAddInsArrayList.add(CoffeeAddIns.CARAMEL);
+                    //update subtotal
+                }
+            }
+        });
+
+        CB_Cream.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CB_Cream.isChecked()){
+                    coffeeAddInsArrayList.add(CoffeeAddIns.CREAM);
+                    //update subtotal
+                }
+            }
+        });
+
+        CB_Milk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CB_Milk.isChecked()){
+                    coffeeAddInsArrayList.add(CoffeeAddIns.MILK);
+                    //update subtotal
+                }
+            }
+        });
+
+        CB_WhippedCream.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CB_WhippedCream.isChecked()){
+                    coffeeAddInsArrayList.add(CoffeeAddIns.WHIPPED_CREAM);
+                    //update subtotal
+                }
+            }
+        });
+        CB_Syrup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CB_Syrup.isChecked()){
+                    coffeeAddInsArrayList.add(CoffeeAddIns.SYRUP);
+                    //update subtotal
                 }
             }
         });
@@ -64,7 +106,8 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         TV_Qty = findViewById(R.id.tv_Qty);
         TV_Size = findViewById(R.id.tv_size);
         TV_Subtotal = findViewById(R.id.tv_subtotal);
-        TV_NumQty = findViewById(R.id.tv_setQuantity);
+        TV_NumQty = findViewById(R.id.et_setQuantity);
+        findCoffeeNumber(TV_NumQty);
 
         //FOR SPINNER
         SP_Size = findViewById(R.id.spinner_size);
@@ -73,6 +116,15 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         //FOR BUTTON
         But_ATB = findViewById(R.id.but_addToBasket);
 
+    }
+
+    /**
+     * This helper method will set the quantity for our coffee order
+     * @param Qty is user input for how many coffees they want
+     */
+    private void findCoffeeNumber(EditText Qty){
+        int amount = Integer.parseInt(Qty.getText().toString());
+        coffee.setNumber(amount);
     }
 
     /**
@@ -88,6 +140,13 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         spinner.setOnItemSelectedListener(this);
     }
 
+    /**
+     * This method will allow us to choose a size for the coffee
+     * @param adapterView from our recycler to pick a size
+     * @param view
+     * @param i
+     * @param l
+     */
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -105,6 +164,10 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
+        coffee.setSize("short");
+    }
+    //NEED HELP HERE CONNECTING ADDINS ARRAY LIST TO COFFEE OBJECT
+    private void subtotalDisplay(TextView sub_tot){
+        double subtotal = coffee.itemPrice();
     }
 }

@@ -89,7 +89,7 @@
         android:text="SUBTOTAL"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_setQuantity" />
+        app:layout_constraintTop_toBottomOf="@+id/et_setQuantity" />
 
     <Button
         android:id="@+id/but_addToBasket"
@@ -99,7 +99,7 @@
         android:layout_marginEnd="48dp"
         android:text="ADD TO BASKET"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_setQuantity" />
+        app:layout_constraintTop_toBottomOf="@+id/et_setQuantity" />
 
     <Spinner
         android:id="@+id/spinner_size"
@@ -133,20 +133,23 @@
         android:layout_marginStart="37dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="238dp"
-        android:text="Please input a quantity (max 9)"
+        android:text="Please input a quantity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_size" />
 
     <EditText
-        android:id="@+id/tv_setQuantity"
+        android:id="@+id/et_setQuantity"
         android:layout_width="334dp"
         android:layout_height="48dp"
         android:layout_marginTop="2dp"
         android:ems="10"
+        android:hint="Max quantity: 9"
         android:inputType="number"
         android:maxLength="1"
+        android:text="1"
+        android:digits="123456789"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
