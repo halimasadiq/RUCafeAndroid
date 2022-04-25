@@ -193,7 +193,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                                                     donut_name.getText().toString() + " removed.", Toast.LENGTH_LONG).show();
                                     donutActivity.removeSubtotal(d.itemPrice());
                                     donutsAdded.remove(d);
-                                    myBasket.removeFromItems(d.toString());
+                                    myBasket.removeFromItems(d.toString(), d.itemPrice());
                                     donut_number.setText(null);
                                 }
                                 //handle the "NO" click

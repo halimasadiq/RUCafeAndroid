@@ -2,7 +2,11 @@ package com.example.rucafe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,9 +40,10 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
 
     private Spinner SP_Size;
 
-    private Coffee coffee;
+    private Coffee coffee = new Coffee();
 
     private ArrayList<CoffeeAddIns> coffeeAddInsArrayList;
+    private static final BasketActivity basket = new BasketActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +63,12 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View view) {
                 if(CB_Caramel.isChecked()){
-                    coffeeAddInsArrayList.add(CoffeeAddIns.CARAMEL);
-                    //update subtotal
+                    coffee.add(CoffeeAddIns.CARAMEL);
                 }
+                if(!CB_Caramel.isChecked()){
+                    coffee.remove(CoffeeAddIns.CARAMEL);
+                }
+                subtotalDisplay();
             }
         });
 
@@ -67,9 +76,12 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View view) {
                 if(CB_Cream.isChecked()){
-                    coffeeAddInsArrayList.add(CoffeeAddIns.CREAM);
-                    //update subtotal
+                    coffee.add(CoffeeAddIns.CREAM);
                 }
+                if(!CB_Cream.isChecked()){
+                    coffee.remove(CoffeeAddIns.CREAM);
+                }
+                subtotalDisplay();
             }
         });
 
@@ -77,9 +89,12 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View view) {
                 if(CB_Milk.isChecked()){
-                    coffeeAddInsArrayList.add(CoffeeAddIns.MILK);
-                    //update subtotal
+                    coffee.add(CoffeeAddIns.MILK);
                 }
+                if(!CB_Milk.isChecked()){
+                    coffee.remove(CoffeeAddIns.MILK);
+                }
+                subtotalDisplay();
             }
         });
 
@@ -87,18 +102,24 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View view) {
                 if(CB_WhippedCream.isChecked()){
-                    coffeeAddInsArrayList.add(CoffeeAddIns.WHIPPED_CREAM);
-                    //update subtotal
+                    coffee.add(CoffeeAddIns.WHIPPED_CREAM);
                 }
+                if(!CB_WhippedCream.isChecked()){
+                    coffee.remove(CoffeeAddIns.WHIPPED_CREAM);
+                }
+                subtotalDisplay();
             }
         });
         CB_Syrup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(CB_Syrup.isChecked()){
-                    coffeeAddInsArrayList.add(CoffeeAddIns.SYRUP);
-                    //update subtotal
+                    coffee.add(CoffeeAddIns.SYRUP);
                 }
+                if(!CB_Syrup.isChecked()){
+                    coffee.remove(CoffeeAddIns.SYRUP);
+                }
+                subtotalDisplay();
             }
         });
 
@@ -107,7 +128,25 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         TV_Size = findViewById(R.id.tv_size);
         TV_Subtotal = findViewById(R.id.tv_subtotal);
         TV_NumQty = findViewById(R.id.et_setQuantity);
-        findCoffeeNumber(TV_NumQty);
+
+        TV_NumQty.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                subtotalDisplay();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        findCoffeeNumber();
 
         //FOR SPINNER
         SP_Size = findViewById(R.id.spinner_size);
@@ -118,13 +157,40 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
+    public void addToBasket(View view){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Add to order");
+        alert.setMessage(coffee.toString());
+        //handle the "YES" click
+        alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(view.getContext(),
+                        coffee.toString() + " added.", Toast.LENGTH_LONG).show();
+                basket.addToItems(coffee.toString(),coffee.itemPrice());
+            }
+            //handle the "NO" click
+        });
+        alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(view.getContext(),
+                        coffee.toString() + " not added.", Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
     /**
      * This helper method will set the quantity for our coffee order
-     * @param Qty is user input for how many coffees they want
      */
-    private void findCoffeeNumber(EditText Qty){
-        int amount = Integer.parseInt(Qty.getText().toString());
-        coffee.setNumber(amount);
+    private void findCoffeeNumber(){
+        if(TV_NumQty.getText().toString().isEmpty()){
+            coffee.setNumber(1);
+        }
+        else {
+            int amount = Integer.parseInt(TV_NumQty.getText().toString());
+            coffee.setNumber(amount);
+        }
     }
 
     /**
@@ -160,6 +226,7 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         }else if(text.equals("grande")){
             coffee.setSize("grande");
         }
+        subtotalDisplay();
     }
 
     @Override
@@ -167,7 +234,10 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         coffee.setSize("short");
     }
     //NEED HELP HERE CONNECTING ADDINS ARRAY LIST TO COFFEE OBJECT
-    private void subtotalDisplay(TextView sub_tot){
+    private void subtotalDisplay(){
+        findCoffeeNumber();
         double subtotal = coffee.itemPrice();
+        String format = String.format("%.2f",subtotal);
+        TV_Subtotal.setText(format);
     }
 }

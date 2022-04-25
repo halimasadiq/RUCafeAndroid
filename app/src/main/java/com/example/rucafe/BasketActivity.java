@@ -70,9 +70,34 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
         }
         items.add(item);
     }
-    public void removeFromItems(String item){
+    public void removeFromItems(String item, double additionalCost){
+        subTotalGot = subTotalGot - additionalCost;
+
+        if (item.contains("donuts") || item.contains("donut")) {
+            String[] tokens = item.split("-");
+            String[] donutInfo = tokens[0].split(" ");
+            String numStr = donutInfo[0].replace("(","");
+            numStr = numStr.replace(")","");
+            Donut d = new Donut(Integer.parseInt(numStr), tokens[1].trim(), donutInfo[1].trim());
+            order.remove(d);
+            //printAmount();
+        }
+        else{
+            String[] tokens = item.split(" ");
+            String numStr = tokens[0].replace("(","");
+            numStr = numStr.replace(")","");
+            String size = tokens[2];
+            ArrayList<CoffeeAddIns> addIns = new ArrayList<>();
+            for(int i = 3; i<tokens.length; i++){
+                addIns.add(CoffeeAddIns.valueOf(tokens[i]));
+            }
+
+            Coffee c = new Coffee(Integer.parseInt(numStr),size,addIns);
+            order.remove(c);
+        }
         items.remove(item);
-        order.remove(item);
+        //items.remove(item);
+        //order.remove(item);
     }
 
     private void printAmount(){

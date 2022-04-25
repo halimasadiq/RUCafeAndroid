@@ -1,7 +1,9 @@
 package com.example.rucafe;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -42,9 +45,6 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
             String formatTotal = String.format("%.2f", orders.get(0).getTotal());
             totalS.setText(formatTotal);
         }
-
-
-
     }
 
 
@@ -80,5 +80,38 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void cancelOrder(View view){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Cancel Selected Order");
+        alert.setMessage("Order Number " + orderNum.getSelectedItem().toString());
+        //anonymous inner class to handle the onClick event of YES or NO.
+        alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                int orderNumSelected = Integer.parseInt(orderNum.getSelectedItem().toString());
+                ArrayList<Order> orders = s.getOrders();
+                for (int i = 0; i < orders.size(); i++) {
+                    if(orders.get(i).getOrderNum() == orderNumSelected){
+                        s.remove(orders.get(i));
+                        orderNumbers.remove(Integer.valueOf(orderNumSelected));
+                        adapter.notifyDataSetChanged();
+                        orders = s.getOrders();
+                        orderNum.setSelection(0);
+                        orderDetails.setText(orders.get(0).toString());
+                        String formatTotal = String.format("%.2f", orders.get(0).getTotal());
+                        totalS.setText(formatTotal);
+
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "Order Cancelled", Toast.LENGTH_LONG).show();
+            }
+        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Order Not Cancelled", Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
 }
