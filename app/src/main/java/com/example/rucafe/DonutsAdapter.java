@@ -137,7 +137,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                                         donut_number.getText().toString() + " " +
                                                 donut_name.getText().toString() + " added.", Toast.LENGTH_LONG).show();
                                 donutActivity.setSubtotal(d.itemPrice());
-                                myBasket.addToItems(d.toString(), d.itemPrice());
+                                myBasket.addToItems(d.toString(),d.itemPrice());
                                 donutsAdded.add(d);
                                 donut_number.setText(null);
                             }

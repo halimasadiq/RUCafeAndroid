@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class BasketActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final ArrayList<String> items = new ArrayList<>();
+    private static final StoreOrdersActivity storeOrders = new StoreOrdersActivity();
     private ArrayAdapter<String> adapter;
     private ListView listView;
     private static final double SALES_TAX = 0.06625;
@@ -44,8 +45,34 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
 
     public void addToItems(String item, double additionalCost){
         subTotalGot = subTotalGot + additionalCost;
+
+        if (item.contains("donuts") || item.contains("donut")) {
+            String[] tokens = item.split("-");
+            String[] donutInfo = tokens[0].split(" ");
+            String numStr = donutInfo[0].replace("(","");
+            numStr = numStr.replace(")","");
+            Donut d = new Donut(Integer.parseInt(numStr), tokens[1].trim(), donutInfo[1].trim());
+            order.add(d);
+            //printAmount();
+        }
+        else{
+            String[] tokens = item.split(" ");
+            String numStr = tokens[0].replace("(","");
+            numStr = numStr.replace(")","");
+            String size = tokens[2];
+            ArrayList<CoffeeAddIns> addIns = new ArrayList<>();
+            for(int i = 3; i<tokens.length; i++){
+                addIns.add(CoffeeAddIns.valueOf(tokens[i]));
+            }
+
+            Coffee c = new Coffee(Integer.parseInt(numStr),size,addIns);
+            order.add(c);
+            //printAmount();
+        }
         items.add(item);
-        order.add(item);
+        System.out.println("in add to items in basket activiyt");
+        System.out.println("item" + item);
+        System.out.println("order" + order.toString());
     }
     public void removeFromItems(String item){
         items.remove(item);
@@ -118,6 +145,44 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
             }
             items.remove(selected);
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void placeOrder(View view){
+        if(items.isEmpty()){
+            Toast.makeText(getApplicationContext(),
+                    "No items in basket to place order", Toast.LENGTH_LONG).show();
+        }
+        else{
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Place Order");
+            alert.setMessage("Confirm to place order");
+            //anonymous inner class to handle the onClick event of YES or NO.
+            alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    System.out.println("in place order in basket activity");
+                    order.setTotal(Double.parseDouble(total.getText().toString()));
+                    System.out.println(order.toString());
+                    storeOrders.addOrder(order);
+                    storeOrders.setOrdersAdded();
+                    items.clear();
+                    adapter.notifyDataSetChanged();
+                    subtotal.setText("0.00");
+                    tax.setText("0.00");
+                    total.setText("0.00");
+                    subTotalGot = 0;
+                    order = new Order();
+                    Toast.makeText(getApplicationContext(), "Order Placed", Toast.LENGTH_LONG).show();
+                }
+            }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Order Not Placed", Toast.LENGTH_LONG).show();
+                }
+            });
+            AlertDialog dialog = alert.create();
+            dialog.show();
+
+
         }
     }
 }

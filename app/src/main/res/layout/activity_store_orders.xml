@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/order_nums"
         android:layout_width="182dp"
         android:layout_height="57dp"
         android:layout_marginStart="25dp"
@@ -36,33 +36,21 @@
         android:layout_marginTop="52dp"
         android:text="total"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toEndOf="@+id/order_nums"
         app:layout_constraintTop_toBottomOf="@+id/orders_tv" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/totalOrders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="52dp"
-        android:text="TextView"
+        android:text="0.00"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.261"
         app:layout_constraintStart_toEndOf="@+id/total_tv"
         app:layout_constraintTop_toBottomOf="@+id/orders_tv" />
-
-    <TextView
-        android:id="@+id/order_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
         android:id="@+id/cancel"
@@ -73,4 +61,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/order_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Details"
+        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_nums" />
 </androidx.constraintlayout.widget.ConstraintLayout>
