@@ -67,12 +67,8 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
 
             Coffee c = new Coffee(Integer.parseInt(numStr),size,addIns);
             order.add(c);
-            //printAmount();
         }
         items.add(item);
-        System.out.println("in add to items in basket activiyt");
-        System.out.println("item" + item);
-        System.out.println("order" + order.toString());
     }
     public void removeFromItems(String item){
         items.remove(item);
@@ -160,9 +156,7 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
             //anonymous inner class to handle the onClick event of YES or NO.
             alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    System.out.println("in place order in basket activity");
                     order.setTotal(Double.parseDouble(total.getText().toString()));
-                    System.out.println(order.toString());
                     storeOrders.addOrder(order);
                     storeOrders.setOrdersAdded();
                     items.clear();

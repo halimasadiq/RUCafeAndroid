@@ -34,17 +34,13 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
         orderNumbers = s.getOrderNumbers();
         adapter = new ArrayAdapter<Integer>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, orderNumbers);
         orderNum.setAdapter(adapter);
+        orderNum.setOnItemSelectedListener(this);
 
         ArrayList<Order> orders = s.getOrders();
         if(orders.size() != 0){
-            System.out.println("in here");
-            //orderDetails.setText("Gellp");
-            System.out.println(s.toString());
-            System.out.println("before");
-            orderDetails.setText(s.toString());
-            System.out.println("after");
-            System.out.println(orders.get(0).toString());
-
+            orderDetails.setText(orders.get(0).toString());
+            String formatTotal = String.format("%.2f", orders.get(0).getTotal());
+            totalS.setText(formatTotal);
         }
 
 
