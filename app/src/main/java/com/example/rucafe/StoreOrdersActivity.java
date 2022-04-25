@@ -83,35 +83,44 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
     }
 
     public void cancelOrder(View view){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Cancel Selected Order");
-        alert.setMessage("Order Number " + orderNum.getSelectedItem().toString());
-        //anonymous inner class to handle the onClick event of YES or NO.
-        alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                int orderNumSelected = Integer.parseInt(orderNum.getSelectedItem().toString());
-                ArrayList<Order> orders = s.getOrders();
-                for (int i = 0; i < orders.size(); i++) {
-                    if(orders.get(i).getOrderNum() == orderNumSelected){
-                        s.remove(orders.get(i));
-                        orderNumbers.remove(Integer.valueOf(orderNumSelected));
-                        adapter.notifyDataSetChanged();
-                        orders = s.getOrders();
-                        orderNum.setSelection(0);
-                        orderDetails.setText(orders.get(0).toString());
-                        String formatTotal = String.format("%.2f", orders.get(0).getTotal());
-                        totalS.setText(formatTotal);
-
+        ArrayList<Order> ordersI = s.getOrders();
+        if(ordersI.size() == 0){
+            Toast.makeText(getApplicationContext(), "No Order to Cancel", Toast.LENGTH_LONG).show();
+        }
+        else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Cancel Selected Order");
+            alert.setMessage("Order Number " + orderNum.getSelectedItem().toString());
+            alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    int orderNumSelected = Integer.parseInt(orderNum.getSelectedItem().toString());
+                    ArrayList<Order> orders = s.getOrders();
+                    for (int i = 0; i < orders.size(); i++) {
+                        if (orders.get(i).getOrderNum() == orderNumSelected) {
+                            s.remove(orders.get(i));
+                            orderNumbers.remove(Integer.valueOf(orderNumSelected));
+                            adapter.notifyDataSetChanged();
+                            orders = s.getOrders();
+                            orderNum.setSelection(0);
+                            if (orders.size() != 0) {
+                                orderDetails.setText(orders.get(0).toString());
+                                String formatTotal = String.format("%.2f", orders.get(0).getTotal());
+                                totalS.setText(formatTotal);
+                            } else {
+                                orderDetails.setText("");
+                                totalS.setText("");
+                            }
+                        }
                     }
+                    Toast.makeText(getApplicationContext(), "Order Cancelled", Toast.LENGTH_LONG).show();
                 }
-                Toast.makeText(getApplicationContext(), "Order Cancelled", Toast.LENGTH_LONG).show();
-            }
-        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Order Not Cancelled", Toast.LENGTH_LONG).show();
-            }
-        });
-        AlertDialog dialog = alert.create();
-        dialog.show();
+            }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Order Not Cancelled", Toast.LENGTH_LONG).show();
+                }
+            });
+            AlertDialog dialog = alert.create();
+            dialog.show();
+        }
     }
 }

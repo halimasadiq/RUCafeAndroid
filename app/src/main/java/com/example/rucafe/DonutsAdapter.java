@@ -22,15 +22,7 @@ import java.util.ArrayList;
 
 /**
  * This is an Adapter class to be used to instantiate an adapter for the RecyclerView.
- * Must extend RecyclerView.Adapter, which will enforce you to implement 3 methods:
- *      1. onCreateViewHolder, 2. onBindViewHolder, and 3. getItemCount
- *
- * You must use the data type <thisClassName.yourHolderName>, in this example
- * <ItemAdapter.ItemHolder>. This will enforce you to define a constructor for the
- * ItemAdapter and an inner class ItemsHolder (a static class)
- * The ItemsHolder class must extend RecyclerView.ViewHolder. In the constructor of this class,
- * you do something similar to the onCreate() method in an Activity.
- * @author
+ * @author Halima Sadiq, Shajia Subhani
  */
 class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
 
@@ -38,6 +30,11 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
     private Context context;
     private ArrayList<Donut> items;
 
+    /**
+     * Parameterized constructor for DonutsAdapter
+     * @param context
+     * @param items
+     */
     public DonutsAdapter(Context context, ArrayList<Donut> items) {
         this.context = context;
         this.items = items;
@@ -65,7 +62,6 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
      */
     @Override
     public void onBindViewHolder(@NonNull ItemsHolder holder, int position) {
-        //assign values for each row
         String flavor = items.get(position).getDonutFlavor() + " " +  items.get(position).getDonutType();
         holder.donut_name.setText(flavor);
         holder.im_item.setImageResource(items.get(position).getImageID());
@@ -78,7 +74,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
      */
     @Override
     public int getItemCount() {
-        return items.size(); //number of MenuItem in the array list.
+        return items.size();
     }
 
     /**
@@ -92,12 +88,14 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
         private TextView donut_number;
         private Button btn_remove;
         private Button btn_add;
-        private ConstraintLayout parentLayout; //this is the row layout
+        private ConstraintLayout parentLayout;
 
-
+        /**
+         * Constructor of ItemsHolder to get references all instances of View defined in row layout
+         * @param itemView
+         */
         public ItemsHolder(@NonNull final View itemView) {
             super(itemView);
-
             donut_name = itemView.findViewById(R.id.donut_flavor);
             im_item = itemView.findViewById(R.id.im_item);
             btn_add = itemView.findViewById(R.id.add);
@@ -109,7 +107,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
         }
 
         /**
-         * Set the onClickListener for the button on each row.
+         * Set the onClickListener for the '+' button on each row to add the donut to basket.
          * Clicking on the button will create an AlertDialog with the options of YES/NO.
          * @param itemView
          */
@@ -130,7 +128,6 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                         AlertDialog.Builder alert = new AlertDialog.Builder(itemView.getContext());
                         alert.setTitle("Add to order");
                         alert.setMessage(donut_number.getText().toString() + " " + donut_name.getText().toString());
-                        //handle the "YES" click
                         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(itemView.getContext(),
@@ -141,7 +138,6 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                                 donutsAdded.add(d);
                                 donut_number.setText(null);
                             }
-                            //handle the "NO" click
                         });
                         alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -159,7 +155,7 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
         }
 
         /**
-         * Set the onClickListener for the button on each row.
+         * Set the onClickListener for the '-' button on each row to remove the donut from basket.
          * Clicking on the button will create an AlertDialog with the options of YES/NO.
          * @param itemView
          */
@@ -185,7 +181,6 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                             AlertDialog.Builder alert = new AlertDialog.Builder(itemView.getContext());
                             alert.setTitle("Remove from order");
                             alert.setMessage(donut_number.getText().toString() + " " + donut_name.getText().toString());
-                            //handle the "YES" click
                             alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(itemView.getContext(),
@@ -196,7 +191,6 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                                     myBasket.removeFromItems(d.toString(), d.itemPrice());
                                     donut_number.setText(null);
                                 }
-                                //handle the "NO" click
                             });
                             alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
@@ -210,11 +204,6 @@ class DonutsAdapter extends RecyclerView.Adapter<DonutsAdapter.ItemsHolder>{
                     }
                 }
             });
-
-
         }
-
     }
-
-
 }

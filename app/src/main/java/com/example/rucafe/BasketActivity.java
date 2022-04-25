@@ -13,7 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
+/**
+ * This class handles all the events from the Graphical User Interface in the Basket window
+ * @author Halima Sadiq, Shajia Subhani
+ */
 public class BasketActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final ArrayList<String> items = new ArrayList<>();
@@ -28,6 +31,11 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
     private String selected;
     private static Order order = new Order();
 
+    /**
+     * Get the references of all instances of Views defined in the layout file, set up the
+     * items to be displayed in the ListView.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +51,11 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
         printAmount();
     }
 
+    /**
+     * Adds the item to the basket
+     * @param item - item to add
+     * @param additionalCost - cost of item to add
+     */
     public void addToItems(String item, double additionalCost){
         subTotalGot = subTotalGot + additionalCost;
 
@@ -53,7 +66,6 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
             numStr = numStr.replace(")","");
             Donut d = new Donut(Integer.parseInt(numStr), tokens[1].trim(), donutInfo[1].trim());
             order.add(d);
-            //printAmount();
         }
         else{
             String[] tokens = item.split(" ");
@@ -64,12 +76,17 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
             for(int i = 3; i<tokens.length; i++){
                 addIns.add(CoffeeAddIns.valueOf(tokens[i]));
             }
-
             Coffee c = new Coffee(Integer.parseInt(numStr),size,addIns);
             order.add(c);
         }
         items.add(item);
     }
+
+    /**
+     * Removes the item from the basket
+     * @param item - item to remove
+     * @param additionalCost - cost of item to remove
+     */
     public void removeFromItems(String item, double additionalCost){
         subTotalGot = subTotalGot - additionalCost;
 
@@ -80,7 +97,6 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
             numStr = numStr.replace(")","");
             Donut d = new Donut(Integer.parseInt(numStr), tokens[1].trim(), donutInfo[1].trim());
             order.remove(d);
-            //printAmount();
         }
         else{
             String[] tokens = item.split(" ");
@@ -96,10 +112,11 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
             order.remove(c);
         }
         items.remove(item);
-        //items.remove(item);
-        //order.remove(item);
     }
 
+    /**
+     * Updates and sets the sub-total, sales tax and total fields
+     */
     private void printAmount(){
         String formatSub = String.format("%.2f",subTotalGot);
         subtotal.setText(formatSub);
@@ -112,13 +129,19 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
+    /**
+     * Event handler for listview item click for order numbers
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         selected = listView.getItemAtPosition(i).toString();
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Remove Selected Item");
         alert.setMessage(adapterView.getAdapter().getItem(i).toString());
-        //anonymous inner class to handle the onClick event of YES or NO.
         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 remove();
@@ -133,7 +156,10 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
         dialog.show();
     }
 
-    public void remove(){
+    /**
+     * Removes selected item from the basket
+     */
+    private void remove(){
         if(selected == null){
             Toast.makeText(getApplicationContext(),
                     "No item selected", Toast.LENGTH_LONG).show();
@@ -169,6 +195,10 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
+    /**
+     * Handles on click of 'Place Order' button and places order
+     * @param view
+     */
     public void placeOrder(View view){
         if(items.isEmpty()){
             Toast.makeText(getApplicationContext(),
@@ -200,8 +230,6 @@ public class BasketActivity extends AppCompatActivity implements AdapterView.OnI
             });
             AlertDialog dialog = alert.create();
             dialog.show();
-
-
         }
     }
 }
