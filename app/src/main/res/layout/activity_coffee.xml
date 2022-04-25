@@ -84,24 +84,22 @@
         android:id="@+id/tv_subtotal"
         android:layout_width="126dp"
         android:layout_height="57dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="252dp"
         android:text="SUBTOTAL"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_size" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_setQuantity" />
 
     <Button
         android:id="@+id/but_addToBasket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="48dp"
         android:text="ADD TO BASKET"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.697"
-        app:layout_constraintStart_toEndOf="@+id/tv_subtotal"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_size" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_setQuantity" />
 
     <Spinner
         android:id="@+id/spinner_size"
@@ -112,10 +110,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_sizeLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_size"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/text_sizeLabel"
+        android:id="@+id/tv_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="43dp"
@@ -126,5 +125,31 @@
         app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_Milk" />
+
+    <TextView
+        android:id="@+id/tv_Qty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="238dp"
+        android:text="Please input a quantity (max 9)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_size" />
+
+    <EditText
+        android:id="@+id/tv_setQuantity"
+        android:layout_width="334dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Qty" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

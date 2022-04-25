@@ -24,10 +24,15 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
     private CheckBox CB_Caramel;
 
     private TextView TV_Subtotal;
+    private TextView TV_Size;
+    private TextView TV_Qty;
+    private TextView TV_NumQty;
 
     private Button But_ATB;
 
     private Spinner SP_Size;
+    
+    private Coffee coffee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +46,18 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         CB_WhippedCream = findViewById(R.id.checkBox_WC);
         CB_Syrup = findViewById(R.id.checkBox_syrup);
 
+        //FOR TEXTVIEWS
+        TV_Qty = findViewById(R.id.tv_Qty);
+        TV_Size = findViewById(R.id.tv_size);
+        TV_Subtotal = findViewById(R.id.tv_subtotal);
+        TV_NumQty = findViewById(R.id.tv_setQuantity);
+
         //FOR SPINNER
         SP_Size = findViewById(R.id.spinner_size);
         populateSize(SP_Size);
+
+
+
     }
 
     /**
@@ -61,6 +75,8 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String text = adapterView.getItemAtPosition(i).toString();
+
 
     }
 

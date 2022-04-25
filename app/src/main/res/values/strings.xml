@@ -9,10 +9,9 @@
     <string name="_0_00">0.00</string>
     <string name="welcome">Rutgers Cafe</string>
     <string-array name="Size">
-        <item>Short</item>
-        <item>Tall</item>
-        <item>Grande</item>
-        <item>Venti</item>
+        <item>short</item>
+        <item>tall</item>
+        <item>grande</item>
+        <item>venti</item>
     </string-array>
-
 </resources>
