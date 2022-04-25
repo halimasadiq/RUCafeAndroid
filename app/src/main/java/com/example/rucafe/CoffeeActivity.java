@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * This class handles all the events from the Graphical User Interface in the Coffee window
  * @author Halima Sadiq, Shajia Subhani
@@ -31,8 +33,10 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
     private Button But_ATB;
 
     private Spinner SP_Size;
-    
+
     private Coffee coffee;
+
+    private ArrayList<String> addIns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,16 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         CB_Milk = findViewById(R.id.checkBox_Milk);
         CB_WhippedCream = findViewById(R.id.checkBox_WC);
         CB_Syrup = findViewById(R.id.checkBox_syrup);
+        addIns = new ArrayList<>();
+
+        CB_Caramel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CB_Caramel.isChecked()){
+                    addIns.add("caramel");
+                }
+            }
+        });
 
         //FOR TEXTVIEWS
         TV_Qty = findViewById(R.id.tv_Qty);
@@ -56,7 +70,8 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         SP_Size = findViewById(R.id.spinner_size);
         populateSize(SP_Size);
 
-
+        //FOR BUTTON
+        But_ATB = findViewById(R.id.but_addToBasket);
 
     }
 
@@ -73,11 +88,19 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         spinner.setOnItemSelectedListener(this);
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String text = adapterView.getItemAtPosition(i).toString();
-
-
+        if(text.equals("short")){
+            coffee.setSize("short");
+        }else if(text.equals("tall")){
+            coffee.setSize("tall");
+        }else if(text.equals("venti")){
+            coffee.setSize("venti");
+        }else if(text.equals("grande")){
+            coffee.setSize("grande");
+        }
     }
 
     @Override
