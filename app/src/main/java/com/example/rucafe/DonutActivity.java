@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 /**
- * This class handles all the events from the Graphical User Interface in the Ordering Donuts window
+ * This class is the activity that handles all the events from the
+ * Graphical User Interface in the Ordering Donuts window
  * @author Halima Sadiq, Shajia Subhani
  */
 public class DonutActivity extends AppCompatActivity{

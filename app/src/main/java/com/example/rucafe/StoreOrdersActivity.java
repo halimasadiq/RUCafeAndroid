@@ -14,7 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
+/**
+ * This class is the Store Orders Activity that handles all the events from the
+ * Graphical User Interface in the Store Orders window
+ * @author Halima Sadiq, Shajia Subhani
+ */
 public class StoreOrdersActivity extends AppCompatActivity implements  AdapterView.OnItemSelectedListener{
 
 
@@ -26,6 +30,10 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
     private ArrayAdapter<Integer> adapter;
     private TextView totalS;
 
+    /**
+     * Get the references of all instances of Views defined in the layout file, sets up the spinner
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +43,8 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
         orderNum = findViewById(R.id.order_nums);
         totalS = findViewById(R.id.totalOrders);
         orderNumbers = s.getOrderNumbers();
-        adapter = new ArrayAdapter<Integer>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, orderNumbers);
+        adapter = new ArrayAdapter<Integer>(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, orderNumbers);
         orderNum.setAdapter(adapter);
         orderNum.setOnItemSelectedListener(this);
 
@@ -57,6 +66,7 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
         s.add(o);
     }
 
+
     /**
      * Updates the number of orders added by 1
      */
@@ -64,6 +74,13 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
         ordersAdded++;
     }
 
+    /**
+     * Overrides the method and handles the event when order number is selected
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         ArrayList<Order> orders = s.getOrders();
@@ -77,11 +94,19 @@ public class StoreOrdersActivity extends AppCompatActivity implements  AdapterVi
         }
     }
 
+    /**
+     * Overrides the method when nothing is selected
+     * @param adapterView
+     */
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 
+    /**
+     * Handles the click of 'Cancel Order' button and cancels the selected order
+     * @param view
+     */
     public void cancelOrder(View view){
         ArrayList<Order> ordersI = s.getOrders();
         if(ordersI.size() == 0){

@@ -14,7 +14,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 /**
- * This class handles all the events from the Graphical User Interface in the Basket window
+ * This class is the Activity that handles all the events from the
+ * Graphical User Interface in the Basket window
  * @author Halima Sadiq, Shajia Subhani
  */
 public class BasketActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {

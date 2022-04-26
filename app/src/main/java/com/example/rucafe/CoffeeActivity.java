@@ -20,11 +20,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 /**
- * This class handles all the events from the Graphical User Interface in the Coffee window
+ * This class is the Activity that handles all the events from the
+ * Graphical User Interface in the Coffee window
  * @author Halima Sadiq, Shajia Subhani
  */
 public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    //Our variables to represent what we have in the xml
     private CheckBox CB_Milk;
     private CheckBox CB_WhippedCream;
     private CheckBox CB_Syrup;
@@ -45,6 +45,10 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
     private ArrayList<CoffeeAddIns> coffeeAddInsArrayList;
     private static final BasketActivity basket = new BasketActivity();
 
+    /**
+     * Get the references of all instances of Views defined in the layout file, sets up the spinner
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +62,6 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         CB_Syrup = findViewById(R.id.checkBox_syrup);
         coffeeAddInsArrayList = new ArrayList<>();
 
-        //Add any add-ins to list if there are any
         CB_Caramel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,7 +126,6 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
             }
         });
 
-        //FOR TEXTVIEWS
         TV_Qty = findViewById(R.id.tv_Qty);
         TV_Size = findViewById(R.id.tv_size);
         TV_Subtotal = findViewById(R.id.tv_subtotal);
@@ -148,27 +150,25 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
 
         findCoffeeNumber();
 
-        //FOR SPINNER
         SP_Size = findViewById(R.id.spinner_size);
         populateSize(SP_Size);
-
-        //FOR BUTTON
         But_ATB = findViewById(R.id.but_addToBasket);
-
     }
 
+    /**
+     * Adds the coffee to the basket on clicking "Add to basket" button
+     * @param view
+     */
     public void addToBasket(View view){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Add to order");
         alert.setMessage(coffee.toString());
-        //handle the "YES" click
         alert.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(view.getContext(),
                         coffee.toString() + " added.", Toast.LENGTH_LONG).show();
                 basket.addToItems(coffee.toString(),coffee.itemPrice());
             }
-            //handle the "NO" click
         });
         alert.setNegativeButton("no", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -229,11 +229,18 @@ public class CoffeeActivity extends AppCompatActivity implements AdapterView.OnI
         subtotalDisplay();
     }
 
+    /**
+     * Overrides the method when nothing is selected in the spinner to set size = short
+     * @param adapterView
+     */
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         coffee.setSize("short");
     }
-    //NEED HELP HERE CONNECTING ADDINS ARRAY LIST TO COFFEE OBJECT
+
+    /**
+     * Displays the subtotal calculated by the selections
+     */
     private void subtotalDisplay(){
         findCoffeeNumber();
         double subtotal = coffee.itemPrice();
